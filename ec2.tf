@@ -27,7 +27,10 @@ resource "aws_instance" "web" {
   vpc_security_group_ids = [aws_security_group.allow_tls.id]
 
   
-  user_data = file("prometheus.sh")
+  user_data = <<-EOF
+    #!/bin/bash
+    ${file("${path.module}/scripts/prometheus.sh")}
+  EOF
   
   tags = {
     Name = "group-5"
